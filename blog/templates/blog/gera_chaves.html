@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+{%  block content %}
+    <h2>Gerador de Chaves Assimétricas</h2>
+    <hr>
+
+    <form method='post'>
+        {% csrf_token %}        
+        <label for='key_length'>Escolha o tamanho da Chave (bits)</label>
+        <div id='key_length'>
+            <input type='radio' id='1024' name='length' value='1024'>
+            <label for='1024'>1024</label> <br>
+            <input type='radio' id='2048' name='length' value='2048'>
+            <label for='2048'>2048</label> <br>
+            <button type='submit' name='gerar_chaves'>Gerar</button>
+        </div>
+    </form><br>
+    
+    
+    <label for='textbox'>Chave Privada:</label><br>
+    <textarea id='textbox' cols="90" rows="5">{{privkey}}</textarea><br>
+    
+    
+    <label for='textbox2'>Chave Pública:</label>
+    <textarea id='textbox2' cols="90" rows="5">{{pubkey}}</textarea><br>
+
+<!--     <div>
+        <a href="./eu.jpeg" > 
+            <img src='eu.jpeg'/>
+        </a>
+    </div> -->
+
+{%  endblock content %}

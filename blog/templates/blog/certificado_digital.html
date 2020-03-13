@@ -1,0 +1,69 @@
+{% extends "blog/base.html" %}
+{%  block content %}
+    {% if restart %}
+        <h2>1º Passo: Gere suas Chaves</h2>
+        <form method='post'>
+            {% csrf_token %}        
+            <label for='key_length'>Escolha o tamanho da Chave (bits)</label>
+            <div id='key_length'>
+                <input type='radio' id='1024' name='length' value='1024'>
+                <label for='1024'>1024</label> <br>
+                <input type='radio' id='2048' name='length' value='2048'>
+                <label for='2048'>2048</label> <br>
+                <button type='submit' name='gerar_chaves'>Gerar</button>
+            </div>
+        </form>
+        
+        <br>
+    
+    {% else %}
+        <h3>Suas chaves são:</h2>
+        <label for='textbox'>Chave Privada:</label><br>
+        <textarea id='textbox' cols="90" rows="5">{{display_keys.privkey}}</textarea><br>
+    
+        <label for='textbox2'>Chave Pública:</label>
+        <textarea id='textbox2' cols="90" rows="5">{{display_keys.pubkey}}</textarea><br>
+        <br><hr><br>
+        {% if ac == Null %}
+            
+            {% if warning %}
+                <h4> Entrada de dados inválida, campo "País" deve ter obrigatoriamente duas letras</h4><br>
+            {% endif %}    
+        
+            <h4>2º Passo: Crie uma Autoridade Certificadora</h4>
+            <label for='subject_input'>Preencha os seguintes campos:</label>
+            <form id='subject_input' method='post'>
+                {% csrf_token %}
+                <input type='text' name='cn' placeholder="Common Name">
+                <input type='text' name='c' placeholder="País">
+                <input type='text' name='st' placeholder="Estado/província">
+                <input type='text' name='l' placeholder="Localidade">
+                <input type='text' name='o' placeholder="Organização">
+                <input type='text' name='ou' placeholder="Unidade organizacional">
+                <br><button type='submit' name='criar_ac'>Criar AC</button>
+            </form>
+            
+        {% else %}
+            
+            {% if warning %}
+                <h4> Entrada de dados inválida, campo "País" deve ter obrigatoriamente duas letras</h4><br>
+            {% endif %}
+            <h4>3º Passo: Faça sua requisição de certificado</h4><br>
+            <label for='cert_req'>Preencha os seguintes campos:</label>
+            <form id='cert_req' method='post' enctype='multipart/form-data'>
+                {% csrf_token %}
+                <input type='text' name='cn' placeholder="Common Name">
+                <input type='text' name='c' placeholder="País">
+                <input type='text' name='st' placeholder="Estado/província">
+                <input type='text' name='l' placeholder="Localidade">
+                <input type='text' name='o' placeholder="Organização">
+                <input type='text' name='ou' placeholder="Unidade organizacional">
+               
+                <br><button type='submit' name='criar_cert'>Criar Certificado</button>
+            </form><br>
+        
+        {% endif %}
+    
+    {% endif %}
+<br><br>
+{%  endblock content %}

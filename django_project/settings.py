@@ -29,7 +29,7 @@ SECRET_KEY = 'gpm=!l7p@^k)tjbt*fl30rx^l07*3mljy(6412cr6y63w2=j2h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['labsecapp.herokuapp.com']
 
 
 # Application definition

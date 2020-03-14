@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from OpenSSL import crypto
-from .models import Ac_certificado, Certificados_emitidos, Post
+from .models import Certificados_emitidos, Post #Ac_certificado
 from .utils import gerar_cert, gerar_chave
 import rsa
 import json
 
 message = {}
 message = {'restart': True}
-ac = Ac_certificado
-ac.objects.all().delete()
+#ac = Ac_certificado
+#ac.objects.all().delete()
 
 # ------------------------------------- - ------------------------------------ #
 
@@ -96,8 +96,8 @@ def certificado_digital(request):
                 #    a = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac)
                 #    f.write(a)
                 
-                ac = Ac_certificado(cert_autoassinado = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac))
-                ac.save()
+                #ac = Ac_certificado(cert_autoassinado = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac))
+                #ac.save()
             
                 # download do certificado...
 
@@ -127,12 +127,12 @@ def certificado_digital(request):
                 print()
                 print(type(issuer_json))
                 print()
-                banco_de_dados = Certificados_emitidos(certificado = certificado_dumped, serial = serial, issuer = issuer_json)
+                banco_de_dados = Certificados_emitidos(certificado = certificado_dumped)
                 banco_de_dados.save()
                 message['restart'] = True
 
 
-    ac = Ac_certificado.objects.first()
+    #ac = Ac_certificado.objects.first()
     message['ac'] = ac    
     #user_pubkey = request.POST.get('pubkey','')
     #print(user_pubkey)

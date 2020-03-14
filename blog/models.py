@@ -21,7 +21,7 @@ class Ac_certificado(models.Model):
 class Certificados_emitidos(models.Model):
     certificado = models.BinaryField()
     serial = models.PositiveIntegerField(default=0)
-    issuer = ArrayField(ArrayField(models.CharField(max_length=100),size = 2), size = 6, default=str)
+    #issuer = ArrayField(ArrayField(models.CharField(max_length=100),size = 2), size = 6, default=str)
 
 class Contador(models.Model):
     pass

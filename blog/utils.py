@@ -1,5 +1,5 @@
 # Módulo com funções para gerar certificados digitais e chaves assimétricas
-from .models import Certificados_emitidos, Contador
+#from .models import Certificados_emitidos, Contador
 from OpenSSL import crypto
 
 def gerar_chave(bit_length):
@@ -11,7 +11,7 @@ def gerar_chave(bit_length):
     return key, pubkey, privkey
 
 def gerar_cert(cn,c,st,l,o,ou,req_key,ac_key,issuer,autoassinado):
-    serial = Contador.objects.all().count()
+    #serial = Contador.objects.all().count()
     cert = crypto.X509() # Instanciando certificado
     
     # Campo subject:
@@ -22,7 +22,7 @@ def gerar_cert(cn,c,st,l,o,ou,req_key,ac_key,issuer,autoassinado):
     cert.get_subject().O = o
     cert.get_subject().OU = ou
     # Serial:
-    cert.set_serial_number(serial) # Identificação
+    cert.set_serial_number(1000) # Identificação
     # Validade: 
     cert.gmtime_adj_notBefore(0) # Certificado começa a ser válido em 0 segundos
     cert.gmtime_adj_notAfter(31536000) # Certificado perde a validade após 365 dias
@@ -41,7 +41,7 @@ def gerar_cert(cn,c,st,l,o,ou,req_key,ac_key,issuer,autoassinado):
     
     print()
     print(dict_nomes)
-    print(serial)
+    #print(serial)
     print()
 
     # Issuer (CA emissora)
@@ -53,7 +53,7 @@ def gerar_cert(cn,c,st,l,o,ou,req_key,ac_key,issuer,autoassinado):
     # por isso utilizei key na assinatura, e na definição da chave pública)
     cert.sign(ac_key, "sha256") # Produz hash, e assina hash com a chave privada
 
-    contar = Contador()
-    contar.save()
+    #contar = Contador()
+    #contar.save()
 
-    return cert, dict_nomes, serial
+    return cert, dict_nomes, 1000

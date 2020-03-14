@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -124,3 +125,5 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())

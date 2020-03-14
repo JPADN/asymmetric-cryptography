@@ -9,7 +9,7 @@ message = {}
 message = {'restart': True}
 #ac = Ac_certificado
 #ac.objects.all().delete()
-
+a = 1
 # ------------------------------------- - ------------------------------------ #
 
 def home(request):

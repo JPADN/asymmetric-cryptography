@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from OpenSSL import crypto
-from .models import Certificados_emitidos, Post, Ac_certificado
+from .models import Certificados_emitidos, Post #Ac_certificado, Contador
 from .utils import gerar_cert, gerar_chave
 import rsa
 import json
+#cont = Contador.objects.all().count()
+c = Certificados_emitidos.objects.first()
+c = c.issuer
+#print(f'Contador: {cont}')
+print(f'Certificados emitidos: {c}')
 
 message = {}
 message = {'restart': True}
-ac = Ac_certificado
-ac.objects.all().delete()
+#ac = Ac_certificado
+#ac.objects.all().delete()
 a = 1
 # ------------------------------------- - ------------------------------------ #
 
@@ -96,8 +101,8 @@ def certificado_digital(request):
                 #    a = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac)
                 #    f.write(a)
                 
-                ac = Ac_certificado(cert_autoassinado = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac))
-                ac.save()
+                #ac = Ac_certificado(cert_autoassinado = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac))
+                #ac.save()
             
                 # download do certificado...
 
@@ -125,15 +130,12 @@ def certificado_digital(request):
                 certificado, issuer_dict, serial = gerar_cert(cn,c,st,l,o,ou,message['app_keys'],message['ac_keys'],message['issuer'],False)
                 certificado_dumped = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado)
                 issuer_json = json.dumps(issuer_dict)
-                print()
-                print(type(issuer_json))
-                print()
-                banco_de_dados = Certificados_emitidos(certificado = certificado_dumped)
+                banco_de_dados = Certificados_emitidos(certificado = certificado_dumped,serial=serial, issuer=issuer_json)
                 banco_de_dados.save()
                 message['restart'] = True
 
 
-    ac = Ac_certificado.objects.first()
+    #ac = Ac_certificado.objects.first()
     message['ac'] = ac    
     #user_pubkey = request.POST.get('pubkey','')
     #print(user_pubkey)

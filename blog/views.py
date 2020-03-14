@@ -87,7 +87,7 @@ def certificado_digital(request):
             if len(c) != 2:
                 message['warning'] = True
             else:
-                certificado_ac, var_inutilizada, serial = gerar_cert(cn,c,st,l,o,ou,key,key,None,True)
+                certificado_ac, var_inutil, serial, var_inutil2 = gerar_cert(cn,c,st,l,o,ou,key,key,None,True)
                 issuer = certificado_ac.get_issuer()
                 message['issuer'] = issuer
 
@@ -121,10 +121,10 @@ def certificado_digital(request):
             if len(c) != 2:
                 message['warning'] = True
             else:
-                certificado, issuer_dict, serial = gerar_cert(cn,c,st,l,o,ou,message['app_keys'],message['ac_keys'],message['issuer'],False)
+                certificado, issuer_json, serial, subject_json, subject_dict = gerar_cert(cn,c,st,l,o,ou,message['app_keys'],message['ac_keys'],message['issuer'],False)
                 certificado_dumped = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado)
-                issuer_json = json.dumps(issuer_dict)
-                banco_de_dados = Certificados_emitidos(certificado = certificado_dumped,serial=serial, issuer=issuer_json)
+                certificado_decoded = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado).decode()
+                banco_de_dados = Certificados_emitidos(certificado = certificado_decoded,serial = serial, issuer = issuer_json, subject = subject_json)
                 banco_de_dados.save()
                 message['restart'] = True
 
@@ -137,6 +137,7 @@ def certificado_digital(request):
 # ------------------------------------- - ------------------------------------ #
 
 def listar_cert(request):
+    count = Certificados_emitidos.objects.all().count()
+    listar = {'certificados': Certificados_emitidos.objects.all(), 'contagem': count}
     
-    
-    return render(request,'blog/listar_cert.html')
+    return render(request,'blog/listar_cert.html', listar)

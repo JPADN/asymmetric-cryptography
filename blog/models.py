@@ -19,9 +19,10 @@ class Ac_certificado(models.Model):
     cert_autoassinado = models.BinaryField()
 
 class Certificados_emitidos(models.Model):
-    certificado = models.BinaryField()
+    certificado = models.TextField()
     serial = models.PositiveIntegerField(default=0)
     issuer = JSONField(default=dict)
+    subject = JSONField(default=dict)
 
 class Contador(models.Model):
     pass

@@ -1,15 +1,21 @@
 {% extends "blog/base.html" %}
 {%  block content %}
-    <h2>Resumo Criptográfico</h2>
-    <hr>
-    <form method='post' enctype='multipart/form-data'>
-        {% csrf_token %}
-        <input type='file' name='document'>
-        <button type='submit'>Upload file</button>
-    </form><br>
-    <p>
-        Hash(obtido pelo algoritmo SHA-256): <br>
-        <textarea id='textbox' cols="70" rows="2">{{ text }}</textarea>
-    </p><br>
+    {% if contagem != 0 %}
+        <h1>Certificados Emitidos</h1>
+        {% for certificado in certificados %}
+            <article class="media content-section">
+                <div class="media-body">
+                <div class="article-metadata">
+                    <small><strong>Serial: {{ certificado.serial }}</strong></small>
+                    <small class="text-muted">Issuer: {{ certificado.issuer }}</small>
+                </div>
+                <h4>Subject: {{ certificado.subject.C }} </a></h4>
+                <textarea id='textbox' cols="90" rows="5" class="article-content">{{ certificado.certificado }}</textarea>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <h3>Não há certificados emitidos no Banco de Dados</h3><br>
+        <a href="/certificado_digital">Crie o seu Certificado Digital...</a>
+    {% endif %}
 {%  endblock content %}
-

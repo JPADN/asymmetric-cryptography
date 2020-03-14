@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from OpenSSL import crypto
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import JSONField
 
 
 class Post(models.Model):
@@ -21,7 +21,7 @@ class Ac_certificado(models.Model):
 class Certificados_emitidos(models.Model):
     certificado = models.BinaryField()
     serial = models.PositiveIntegerField(default=0)
-    #issuer = ArrayField(ArrayField(models.CharField(max_length=100),size = 2), size = 6, default=str)
+    issuer = JSONField(default=dict)
 
 class Contador(models.Model):
     pass

@@ -67,7 +67,7 @@ def resumo_cripto(request):
 
 def certificado_digital(request):
     message['warning'] = False
-    
+
     if request.method == 'POST':
         
         # Dependendo da etapa em que estamos, uma condição diferente será executada

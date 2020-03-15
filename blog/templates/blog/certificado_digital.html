@@ -27,7 +27,11 @@
         {% if ac == Null %}
             
             {% if warning %}
-                <h4> Entrada de dados inválida, campo "País" deve ter obrigatoriamente duas letras</h4><br>
+                <h4> Entrada de dados inválida.</h4>
+                <p>Todos os campos devem ser preenchidos<br>
+                    Campo "País" deve ter obrigatoriamente duas letras
+                </p>
+                <br>
             {% endif %}    
         
             <h4>2º Passo: Crie uma Autoridade Certificadora</h4>
@@ -46,16 +50,15 @@
         {% else %}
             
             {% if warning %}
-                <h4> Entrada de dados inválida, campo "País" deve ter obrigatoriamente duas letras</h4><br>
+                <h4> Entrada de dados inválida.</h4>
+                <p>Todos os campos devem ser preenchidos<br>
+                    Campo "País" deve ter obrigatoriamente duas letras
+                </p>
+                <br>
             {% endif %}
             
             <p>AC atual: {{ diplay_ac_subject }}</p>
-<!--             <p>Caso deseje criar outra AC 
-                <form method='post'>
-                    {% csrf_token %}
-                    <button name='criar_ac'>Clique Aqui</button>
-                </form>
-            </p><br> -->
+            <p>Caso deseje criar outra AC, preencha os campos seguintes e clique no botão "Criar uma nova AC" </p><br>
 
             <h4>3º Passo: Faça sua requisição de certificado</h4><br>
             <label for='cert_req'>Preencha os seguintes campos:</label>
@@ -69,6 +72,7 @@
                 <input type='text' name='ou' placeholder="Unidade organizacional">
                
                 <br><button type='submit' name='criar_cert'>Criar Certificado</button>
+                <button type='submit' name = 'criar_ac'> Criar uma nova AC</button>
             </form>
         
         {% endif %}

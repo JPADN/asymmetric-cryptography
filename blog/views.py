@@ -7,8 +7,12 @@ import json
 
 # --------------------- Neste arquivo definimos as rotas da aplicação -------------------- #
 
-message = {}
 message = {'restart': True}
+
+# A geração de certificados depende dos objetos de cypto.X509 e crypto.PKey
+# Tendo em vista a impossibilidade de armazenar estes no banco de dados, como explicado na rota Home
+# Torna-se necessário registrar uma nova AC cada vez que a aplicação reinicia, pois desta forma, posso armazenar
+# os objetos dentro de dicionários.
 ac = Ac_certificado
 ac.objects.all().delete()
 
@@ -63,7 +67,7 @@ def resumo_cripto(request):
 
 def certificado_digital(request):
     message['warning'] = False
-
+    
     if request.method == 'POST':
         
         # Dependendo da etapa em que estamos, uma condição diferente será executada
@@ -88,9 +92,11 @@ def certificado_digital(request):
             l = request.POST.get('l','')
             o = request.POST.get('o','')
             ou = request.POST.get('ou','') 
-           
+            
+            verificar = [cn,c,st,l,o,ou]
+
             # Verificação da validade do input
-            if len(c) != 2:
+            if (len(c) != 2) or '' in verificar:
                 message['warning'] = True
             
             else:
@@ -106,6 +112,8 @@ def certificado_digital(request):
                 # Disponibilizando o objeto issuer para futuramente utilizarmos na emissão de certificados digitais
                 issuer = certificado_ac.get_issuer()
                 message['issuer'] = issuer 
+                # Dados para exibir qual a AC atual, no HTML
+                message['diplay_ac_subject'] = subject_json
 
                 #with open('./arquivo_certificados/ac_certificado.crt', 'wb+') as f:
                     #a = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac)
@@ -125,13 +133,14 @@ def certificado_digital(request):
             o = request.POST.get('o','')
             ou = request.POST.get('ou','')
             
+            verificar = [cn,c,st,l,o,ou]
             print()
             #print(message['app_keys'])        
             #print(message['ac_keys'])
             #print(message['issuer'])
             print()
              
-            if len(c) != 2:
+            if (len(c) != 2) or '' in verificar:
                 message['warning'] = True
             else:
                 certificado, issuer_json, serial, subject_json = gerar_cert(cn,c,st,l,o,ou,message['app_keys'],message['ac_keys'],message['issuer'],False)

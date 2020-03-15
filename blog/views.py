@@ -114,10 +114,6 @@ def certificado_digital(request):
                 message['issuer'] = issuer 
                 # Dados para exibir qual a AC atual, no HTML
                 message['diplay_ac_subject'] = subject_json
-
-                #with open('./arquivo_certificados/ac_certificado.crt', 'wb+') as f:
-                    #a = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac)
-                    #f.write(a)
                 
                 # Guardando no banco de dados
                 ac = Ac_certificado(cert_autoassinado = certificado_decoded, serial = serial,
@@ -134,11 +130,6 @@ def certificado_digital(request):
             ou = request.POST.get('ou','')
             
             verificar = [cn,c,st,l,o,ou]
-            print()
-            print(message['app_keys'])        
-            print(message['ac_keys'])
-            print(message['issuer'])
-            print()
              
             if (len(c) != 2) or '' in verificar:
                 message['warning'] = True

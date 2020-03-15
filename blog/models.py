@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from OpenSSL import crypto
 from django.contrib.postgres.fields import JSONField
 
-
 class Ac_certificado(models.Model):    
     cert_autoassinado = models.TextField()
     serial = models.PositiveIntegerField(default=0)
@@ -18,5 +17,6 @@ class Certificados_emitidos(models.Model):
     issuer = JSONField(default=dict)
     subject = JSONField(default=dict)
 
+# Será utilizado para gerar serial único à cada certificado
 class Contador(models.Model):
     pass

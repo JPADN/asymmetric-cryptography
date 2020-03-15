@@ -135,9 +135,9 @@ def certificado_digital(request):
             
             verificar = [cn,c,st,l,o,ou]
             print()
-            #print(message['app_keys'])        
-            #print(message['ac_keys'])
-            #print(message['issuer'])
+            print(message['app_keys'])        
+            print(message['ac_keys'])
+            print(message['issuer'])
             print()
              
             if (len(c) != 2) or '' in verificar:

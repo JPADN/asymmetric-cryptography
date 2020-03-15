@@ -48,6 +48,15 @@
             {% if warning %}
                 <h4> Entrada de dados inválida, campo "País" deve ter obrigatoriamente duas letras</h4><br>
             {% endif %}
+            
+            <p>AC atual: {{ diplay_ac_subject }}</p>
+<!--             <p>Caso deseje criar outra AC 
+                <form method='post'>
+                    {% csrf_token %}
+                    <button name='criar_ac'>Clique Aqui</button>
+                </form>
+            </p><br> -->
+
             <h4>3º Passo: Faça sua requisição de certificado</h4><br>
             <label for='cert_req'>Preencha os seguintes campos:</label>
             <form id='cert_req' method='post' enctype='multipart/form-data'>

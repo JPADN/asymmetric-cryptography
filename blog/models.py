@@ -16,7 +16,11 @@ class Post(models.Model):
         return self.title
 
 class Ac_certificado(models.Model):    
-    cert_autoassinado = models.BinaryField()
+    cert_autoassinado = models.TextField()
+    serial = models.PositiveIntegerField(default=0)
+    issuer = JSONField(default=dict)
+    subject = JSONField(default=dict)
+
 
 class Certificados_emitidos(models.Model):
     certificado = models.TextField()

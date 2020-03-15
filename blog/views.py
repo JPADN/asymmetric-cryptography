@@ -90,15 +90,21 @@ def certificado_digital(request):
             if len(c) != 2:
                 message['warning'] = True
             else:
-                certificado_ac, var_inutil, serial, var_inutil2 = gerar_cert(cn,c,st,l,o,ou,key,key,None,True)
+                certificado_ac, issuer_json, serial, subject_json, var_inutil = gerar_cert(cn,c,st,l,o,ou,key,key,None,True)
+                certificado_decoded = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac).decode()
+                
                 issuer = certificado_ac.get_issuer()
-                message['issuer'] = issuer
+                message['issuer'] = issuer # Passando o objeto issuer de crypto.X509
+                
+                message['diplay_ac_subject'] = subject_json
 
                 #with open('./arquivo_certificados/ac_certificado.crt', 'wb+') as f:
-                #    a = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac)
-                #    f.write(a)
+                    #a = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac)
+                    #f.write(a)
                 
-                ac = Ac_certificado(cert_autoassinado = crypto.dump_certificate(crypto.FILETYPE_PEM, certificado_ac))
+                ac = Ac_certificado(cert_autoassinado = certificado_decoded, serial = serial,
+                issuer = issuer_json, subject = subject_json)
+
                 ac.save()
             
                 # download do certificado...

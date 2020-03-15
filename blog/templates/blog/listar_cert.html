@@ -2,6 +2,7 @@
 {%  block content %}
     {% if contagem != 0 %}
         <h1>Certificados Emitidos</h1>
+        {% load static %}
         {% for certificado in certificados %}
             <article class="media content-section">
                 <div class="media-body">
@@ -9,7 +10,8 @@
                     <small><strong>Serial: {{ certificado.serial }}</strong></small>
                     <small class="text-muted">Issuer: {{ certificado.issuer }}</small>
                 </div>
-                <h4>Subject: {{ certificado.subject.C }} </a></h4>
+                <label for='cert_subject'>Subject:</label><br> 
+                <textarea id='cert_subject' cols='60' rows=2>{{ certificado.subject }} </textarea>
                 <textarea id='textbox' cols="90" rows="5" class="article-content">{{ certificado.certificado }}</textarea>
                 </div>
             </article>

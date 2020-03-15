@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 {%  block content %}
+    
     <h2>Resumo Criptográfico</h2>
     <hr>
     <form method='post' enctype='multipart/form-data'>
@@ -10,6 +11,7 @@
     <p>
         Hash (obtido pelo algoritmo SHA-256): <br>
         <textarea id='textbox' cols="70" rows="2">{{ text }}</textarea>
-    </p><br>
+    </p>
+    
 {%  endblock content %}
 

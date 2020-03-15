@@ -22,11 +22,10 @@
     
     <label for='textbox2'>Chave Pública:</label>
     <textarea id='textbox2' cols="90" rows="5">{{pubkey}}</textarea><br>
-
-<!--     <div>
-        <a href="./eu.jpeg" > 
-            <img src='eu.jpeg'/>
-        </a>
-    </div> -->
-
+    
+    {% load static %}
+    <p>
+        <a href='{% static "blog/chave-priv.key" %}' download>Download Chave Privada</a>  |  
+        <a href='{% static "blog/chave-pub.key" %}' download>Download Chave Pública</a>
+    </p>
 {%  endblock content %}

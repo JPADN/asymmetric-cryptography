@@ -20,6 +20,9 @@ def home(request):
 # ------------------------------------- - ------------------------------------ #
 
 def gera_chave(request):
+    with open('blog/static/blog/chave-priv.key','wb'): pass
+    with open('blog/static/blog/chave-pub.key', 'wb'): pass
+
     keys = {'pubkey': 0, 'privkey': 0}
     
     if request.method == 'POST':
@@ -29,10 +32,10 @@ def gera_chave(request):
             key, pubkey, privkey = gerar_chave(bit_length)
                 
             # Implementar download
-            #with open('./chaves/chave-priv.key', 'wb+') as f:
-            #    f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, key))
-            #with open('./chaves/chave-pub.key', 'wb+') as d:
-            #    d.write(crypto.dump_publickey(crypto.FILETYPE_PEM, key))
+            with open('blog/static/blog/chave-priv.key', 'wb') as f:
+                f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, key))
+            with open('blog/static/blog/chave-pub.key', 'wb') as d:
+                d.write(crypto.dump_publickey(crypto.FILETYPE_PEM, key))
 
             
             keys = {'pubkey': pubkey, 'privkey': privkey}

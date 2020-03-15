@@ -118,9 +118,9 @@ def certificado_digital(request):
             ou = request.POST.get('ou','')
             
             print()
-            print(message['app_keys'])        
-            print(message['ac_keys'])
-            print(message['issuer'])
+            #print(message['app_keys'])        
+            #print(message['ac_keys'])
+            #print(message['issuer'])
             print()
 
             #ac = Ac_certificado.objects.first()

@@ -5,16 +5,6 @@ from OpenSSL import crypto
 from django.contrib.postgres.fields import JSONField
 
 
-class Post(models.Model):
-    title = models.CharField(max_length=100)
-    content: models.TextField()
-    date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete = models.CASCADE) # Se eu deletar o usuário, deleto o post
-
-    # Método para printar o title quando acesso objetos de um schema
-    def __str__(self):
-        return self.title
-
 class Ac_certificado(models.Model):    
     cert_autoassinado = models.TextField()
     serial = models.PositiveIntegerField(default=0)

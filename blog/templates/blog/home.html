@@ -1,17 +1,60 @@
 {% extends "blog/base.html" %}
 {%  block content %}
-    <h1>Processo Seletivo LabSec</h1>
-    {% for post in posts %}
-        <article class="media content-section">
-            <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted }}</small>
-            </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-            </div>
-        </article>
-    {% endfor %}
+    <h1>Processo Seletivo LabSec</h1><hr>
+    <p>-- Comece escolhendo uma funcionalidade do site através do nosso menu superior --</p><br>
+    <strong><h5>Sobre:</h5></strong>
+    <p>
+        Este é um projeto desenvolvido por João Pedro Adami do Nascimento para o desafio final do
+        Processo Seletivo LabSec.<br>
+        Desenvolvido em Django com Banco de Dados PostgreSQL.
+    </p><hr>
+    <p>
+        <strong><h5>1ª Implementação: Resumo Criptográfico</strong></h5>
+        Forneça um arquivo ao servidor que este irá lhe retornar uma "identidade" do arquivo, mais conhecido 
+        como HASH. O Hash representa a identidade do documento, e comumente é utilizado para provar que os dados
+        do documento não foram alterados, haja vista que a mínima alteração resultaria em um hash completamente
+        distinto.<br>
+        O algoritmo utilizado foi o SHA-256.<hr>
+
+        <strong><h5>2ª Implementação: Geração de Chaves Assimétricas</strong></h5>
+        Escolha o tamanho em bits da chave que deseja produzir e o programa retornará uma chave púbica e outra privada,
+        ambas em formato PEM.<br>
+        Possível cenário de utilização de chaves assimétricas:<br>
+        João deseja enviar mensagem secreta para Maria, para isto a Maria disponibiliza sua chave pública ao João via internet,
+        João então cifra sua mensagem secreta com a chave pública de Maria e envia a mensagem cifrada à ela, que ira decifrar
+        a mensagem com sua chave privada.<br>
+        O algoritmo utilizado na geração das chaves assimétricas é o RSA.<hr>
+
+        <strong><h5>3ª Implementação: Geração de Certificados Digitais</strong></h5>
+        O processo é divido em 3 etapas:<br>
+        <ul>
+        <li>1ª Etapa: O usuário ao entrar na página precisará gerar seu par de chaves assimétricas.</li>
+        <li>2ª Etapa: caso não haja um Autoridade Certificadora (AC) no banco de dados o usuário terá que criar uma preenchendo os campos necessários. Se houver uma AC previamente registrada no banco,
+        o usuário vai para a 3ª Etapa.</li>
+        <li>3ª Etapa: onde ocorrerá a geração do certificado digital, este certificado será vinculado à chave pública 
+        que o usuário gerou na 1ª etapa e será assinado com a chave privada da Autoridade Certificadora.</li>
+        </ul><br>
+        <strong>Possíveis questionamentos:</strong><br>
+        <strong>Q:</strong> Por que o usuário não recupera seu par de chaves assimétricas, previamente geradas, de um banco de dados:<br>
+        
+        <strong>R:</strong> Na implementação deste desafio foi utilizado o módulo crypto da biblioteca OpenSSL. A classe de geração de certificados digitais, crypto.X509, aceita apenas objetos de crypto.X509() em suas funções
+        set_issuer(), set_pubkey(), sign().<br>
+        Tentei então guardar os objetos no banco de dados utilizando a biblioteca pickle para serializar o objeto e assim poder guardar ele no banco de dados. Todavia os objetos de crypto.X509() e crypto.PKey() 
+        não são compativeis com o pickle, retornando o seguinte erro:<br> 
+        <code>can't pickle _cffi_backend.CDataGCP objects</code><br>
+        Tentei então outra biblioteca para geração de certificado X.509, cryptography.<br>
+        Esta também aceitava apenas objetos nos inputs de chave privada e publica para geração de certificado digital. E ao tentar serializar estes com pickle, retornou o seguinte erro:
+        <code>can't pickle CompiledFFI objects</code><hr>
+
+        <strong><h5>4ª Implementação: Listar Certificados Emitidos</strong></h5>
+        Implementação que provê ao usuário uma lista de todos os certificados emitidos que encontram-se registrados no banco de dados.<br>
+        Na listagem, estão presentes os seguintes campos: 
+        <ul>
+            <li>Issuer (AC que emitiu o certificado)</li>
+            <li>Serial (Número único de identificação)</li> 
+            <li>Subject (informações de quem fez a requisição pelo certificado)</li>
+        </ul>
+
+    </p>
 {%  endblock content %}
 
